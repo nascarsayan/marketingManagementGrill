@@ -199,7 +199,51 @@ function showSummary(){const stats=topicStats().filter(s=>s.attempts).sort((a,b)
 function syncQuestionTools(){const isRead=state.read.includes(current.id),isBookmarked=state.bookmarked.includes(current.id),readAction=isRead?'Mark question as unread':'Mark question as read',bookmarkAction=isBookmarked?'Remove bookmark':'Bookmark question';$('#readToggle').classList.toggle('active',isRead);$('#readToggle').setAttribute('aria-pressed',String(isRead));$('#readToggle').setAttribute('aria-label',readAction);$('#readToggle').dataset.tooltip=readAction;$('#readLabel').textContent=isRead?'Read':'Unread';$('#bookmarkButton').classList.toggle('active',isBookmarked);$('#bookmarkButton').setAttribute('aria-pressed',String(isBookmarked));$('#bookmarkButton').setAttribute('aria-label',bookmarkAction);$('#bookmarkButton').dataset.tooltip=bookmarkAction;$('#bookmarkLabel').textContent=isBookmarked?'Bookmarked':'Bookmark'}
 function toggleRead(){const i=state.read.indexOf(current.id);i>=0?state.read.splice(i,1):state.read.push(current.id);save();syncQuestionTools()}
 function toggleBookmark(){const i=state.bookmarked.indexOf(current.id);i>=0?state.bookmarked.splice(i,1):state.bookmarked.push(current.id);save();syncQuestionTools();updateStats()}
-function buildAIContext(){const selected=$$('#answers input:checked').map(input=>LETTERS[Number(input.value)]),lines=[`I am preparing for a senior Head of Marketing & Sales interview using Kotler and Keller's Marketing Management.`,`Please explain the following question at senior-management depth. Distinguish the plausible options, show the managerial trade-offs, and apply it to a steel or industrial B2B context.`,``,`Topic: ${current.topic}`,`Difficulty: ${current.difficulty}`,`Format: ${current.type==='multi'?'Multiple answer':current.type==='truefalse'?'True/False':'Single answer'}`,`Question: ${current.q}`,`Options:`,...current.opts.map((option,i)=>`${LETTERS[i]}. ${option}`)];if(selected.length)lines.push(`My selected answer: ${selected.join(', ')}`);if(locked){lines.push(`Correct answer: ${current.correct.map(i=>LETTERS[i]).join(', ')}`,`Book explanation: ${current.why}`,`Interview takeaway: ${current.takeaway}`)}lines.push(``,`Help me understand the reasoning rather than merely restating the answer.`);return lines.join('\\n')}
+function buildAIContext(){
+ const selected=$$('#answers input:checked').map(input=>LETTERS[Number(input.value)]);
+ const format=current.type==='multi'?'Multiple answer':current.type==='truefalse'?'True/False':'Single answer';
+ const lines=[
+  '# Marketing Management interview deep dive',
+  '',
+  '## Role and objective',
+  `I am preparing for a senior Head of Marketing & Sales interview using Kotler and Keller's Marketing Management.`,
+  'Act as a senior marketing thought partner. Focus on managerial reasoning, not textbook recall.',
+  '',
+  '## Question context',
+  `- Topic: ${current.topic}`,
+  `- Difficulty: ${current.difficulty}`,
+  `- Format: ${format}`,
+  '',
+  '## Question',
+  current.q,
+  '',
+  '## Options',
+  ...current.opts.map((option,i)=>`${LETTERS[i]}. ${option}`)
+ ];
+ if(selected.length)lines.push('','## My attempt',`Selected answer: ${selected.join(', ')}`);
+ if(locked)lines.push(
+  '',
+  '## Reference answer from the revision app',
+  `- Correct answer: ${current.correct.map(i=>LETTERS[i]).join(', ')}`,
+  `- Underlying concept: ${current.concept}`,
+  '',
+  current.why,
+  '',
+  `Interview takeaway: ${current.takeaway}`
+ );
+ lines.push(
+  '',
+  '## What I want from you',
+  '1. Explain why the correct answer is strategically sound.',
+  '2. Explain why each alternative is weaker or applies to a different managerial problem.',
+  '3. Distinguish this concept from the closest commonly confused concept.',
+  '4. Apply it to a steel or industrial B2B situation.',
+  '5. Give me a concise 60-second interview-answer structure.',
+  '',
+  'Challenge weak assumptions in my reasoning rather than merely restating the answer.'
+ );
+ return lines.join('\n');
+}
 async function copyAIContext(){const text=buildAIContext();try{if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(text);else{const area=document.createElement('textarea');area.value=text;area.style.position='fixed';area.style.opacity='0';document.body.append(area);area.select();if(!document.execCommand('copy'))throw new Error('Copy failed');area.remove()}$('#copyStatus').textContent='AI context copied to clipboard.';$('#copyContextButton').classList.add('copied');setTimeout(()=>{$('#copyStatus').textContent='';$('#copyContextButton').classList.remove('copied')},1800)}catch{$('#copyStatus').textContent='Could not copy automatically. Check browser clipboard permission.'}}
 function setTheme(theme){document.documentElement.dataset.theme=theme;state.theme=theme;$('#themeLabel').textContent=theme==='dark'?'Light appearance':'Dark appearance';save()}
 $$('.nav-item').forEach(button=>button.onclick=()=>{navigate(button.dataset.view);closeTransientNavigation()});$('#progressButton').onclick=()=>{navigate('dashboard');closeTransientNavigation()};$('#checkAnswer').onclick=checkAnswer;$('#nextQuestion').onclick=next;$('#readToggle').onclick=toggleRead;$('#bookmarkButton').onclick=toggleBookmark;$('#copyContextButton').onclick=copyAIContext;$('#themeToggle').onclick=()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark');$('#keyboardHelp').onclick=()=>$('#shortcutsDialog').showModal();$$('.dialog-close').forEach(b=>b.onclick=()=>b.closest('dialog').close());$('.dialog-continue').onclick=()=>$('#summaryDialog').close();
