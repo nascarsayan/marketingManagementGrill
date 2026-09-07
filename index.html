@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0c111b" />
   <title>Market Signal — Marketing Management Revision</title>
-  <link rel="stylesheet" href="styles.css?v=20260907f" />
+  <link rel="stylesheet" href="styles.css?v=20260907g" />
 </head>
 <body>
   <div class="app-shell">
@@ -16,6 +16,7 @@
         <button class="nav-item" data-view="dashboard" data-tooltip="Performance" title="Performance"><span class="nav-icon">◫</span><span class="nav-label">Performance</span></button>
         <button class="nav-item" data-view="overview" data-tooltip="Bank overview" title="Bank overview"><span class="nav-icon">▦</span><span class="nav-label">Bank overview</span></button>
         <button class="nav-item" data-view="review" data-tooltip="Bookmarks" title="Bookmarks"><span class="nav-icon">▰</span><span class="nav-label">Bookmarks</span><b id="reviewCount">0</b></button>
+        <button class="nav-item" data-view="tricky" data-tooltip="Tricky questions" title="Tricky questions"><span class="nav-icon">◆</span><span class="nav-label">Tricky questions</span><b id="trickyCount">0</b></button>
       </nav>
       <div class="sidebar-foot">
         <div class="edition">Based on core frameworks from<br><strong>Marketing Management</strong><br>Kotler · Keller · 16th edition</div>
@@ -71,7 +72,7 @@
         </section>
 
         <section id="feedback" class="feedback" hidden>
-          <div id="feedbackMark" class="feedback-mark">✓</div><div><div id="feedbackTitle" class="feedback-title">Strong call.</div><p id="feedbackText"></p><div class="concept-line"><strong>Underlying concept</strong><span id="conceptText"></span></div><div class="takeaway"><span>INTERVIEW TAKEAWAY</span><p id="takeawayText"></p></div></div>
+          <div id="feedbackMark" class="feedback-mark">✓</div><div><div id="feedbackTitle" class="feedback-title">Strong call.</div><p id="feedbackText"></p><div class="concept-line"><strong>Underlying concept</strong><span id="conceptText"></span></div><div class="takeaway"><span>INTERVIEW TAKEAWAY</span><p id="takeawayText"></p></div><a id="chatQuestion" class="chat-question" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">Chat about this question <span aria-hidden="true">↗</span></a></div>
         </section>
       </section>
 
@@ -91,10 +92,12 @@
       </section>
 
       <section id="reviewView" class="view"><p class="eyebrow">SAVED FOR LATER</p><h1>Your <em>bookmarks.</em></h1><p class="lede">Questions you deliberately saved for another pass. Bookmarks remain on this device.</p><div id="reviewList" class="review-list"></div></section>
+
+      <section id="trickyView" class="view"><p class="eyebrow">WRONG-ANSWER REVIEW</p><h1>Your <em>tricky questions.</em></h1><p class="lede">Every question answered incorrectly is kept here until you remove it. Use this list for focused revision.</p><div id="trickyList" class="review-list"></div></section>
     </main>
   </div>
   <dialog id="summaryDialog" class="summary-dialog"><button class="dialog-close" aria-label="Close summary">×</button><p class="eyebrow">25-QUESTION CHECKPOINT</p><h2>Session signal</h2><div id="summaryScore" class="summary-score"></div><div class="summary-columns"><section><h3>Strong in</h3><ul id="strongList"></ul></section><section><h3>Revise next</h3><ul id="weakList"></ul></section></div><section><h3>Five Head-level questions to answer verbally</h3><ol id="summaryPrompts" class="verbal-prompts"></ol></section><button class="primary-btn dialog-continue">Continue revision <span>→</span></button></dialog>
   <dialog id="shortcutsDialog" class="shortcuts"><button class="dialog-close" aria-label="Close shortcuts">×</button><h2>Shortcuts</h2><p><kbd>1</kbd>–<kbd>4</kbd> Choose an option</p><p><kbd>Enter</kbd> Check answer / next question</p><p><kbd>B</kbd> Toggle bookmark</p><p><kbd>R</kbd> Toggle read status</p><p><kbd>C</kbd> Copy context for AI</p><p><kbd>D</kbd> Open dashboard</p><p><kbd>Esc</kbd> Close dialog</p></dialog>
-  <script src="app.js?v=20260907f"></script>
+  <script src="app.js?v=20260907g"></script>
 </body>
 </html>
