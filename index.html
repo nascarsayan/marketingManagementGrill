@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0c111b" />
+  <title>Market Signal — Marketing Management Revision</title>
+  <link rel="stylesheet" href="styles.css?v=20260907e" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside id="sidebar" class="sidebar" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="Market Signal home"><span class="brand-mark">MS</span><span class="brand-name">Market<br><strong>Signal</strong></span></a>
+      <nav class="nav-list">
+        <button class="nav-item active" data-view="quiz" data-tooltip="Revision desk" title="Revision desk"><span class="nav-icon">◈</span><span class="nav-label">Revision desk</span></button>
+        <button class="nav-item" data-view="dashboard" data-tooltip="Performance" title="Performance"><span class="nav-icon">◫</span><span class="nav-label">Performance</span></button>
+        <button class="nav-item" data-view="overview" data-tooltip="Bank overview" title="Bank overview"><span class="nav-icon">▦</span><span class="nav-label">Bank overview</span></button>
+        <button class="nav-item" data-view="review" data-tooltip="Review queue" title="Review queue"><span class="nav-icon">⌁</span><span class="nav-label">Review queue</span><b id="reviewCount">0</b></button>
+      </nav>
+      <div class="sidebar-foot">
+        <div class="edition">Based on core frameworks from<br><strong>Marketing Management</strong><br>Kotler · Keller · 16th edition</div>
+      </div>
+    </aside>
+    <button id="navBackdrop" class="nav-backdrop" type="button" aria-label="Close open panel" tabindex="-1" hidden></button>
+    <main id="top" class="main-content">
+      <header class="topbar">
+        <button id="menuToggle" class="icon-btn menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation" data-tooltip="Toggle navigation" title="Toggle navigation"><span aria-hidden="true">☰</span></button>
+        <div class="crumb"><span class="pulse"></span> Senior marketing &amp; sales interview prep</div>
+        <div class="top-actions">
+          <button id="controlsToggle" class="icon-btn controls-toggle" type="button" aria-label="Session controls" aria-controls="topControlPanel" aria-expanded="false" data-tooltip="Session controls" title="Session controls"><span aria-hidden="true">⚙</span><span>Controls</span></button>
+          <div id="topControlPanel" class="top-control-panel">
+            <label class="top-select" for="modeSelect"><span class="sr-only">Session mode</span><span class="select-shell"><select id="modeSelect" aria-label="Session mode"><option value="adaptive">Adaptive</option><option value="sprint">25-question sprint</option><option value="full">Full bank — in order</option><option value="topic">Choose a topic</option></select><span class="select-chevron" aria-hidden="true">⌄</span></span></label>
+            <label id="topicControl" class="top-select topic-select" for="topicSelect" hidden><span class="sr-only">Focus topic</span><span class="select-shell"><select id="topicSelect" aria-label="Focus topic"></select><span class="select-chevron" aria-hidden="true">⌄</span></span></label>
+            <label class="incognito-control top-incognito" for="incognitoToggle" data-tooltip="Do not record answers" title="Do not record answers"><input id="incognitoToggle" type="checkbox"><span class="toggle-track" aria-hidden="true"><i></i></span><span><strong>Incognito</strong></span></label>
+            <button id="themeToggle" class="icon-btn" type="button" aria-label="Switch color theme" data-tooltip="Switch color theme" title="Switch color theme"><span aria-hidden="true">◐</span><span id="themeLabel" class="sr-only">Dark appearance</span></button>
+            <button id="resetProgress" class="icon-btn danger" type="button" aria-label="Reset all progress" data-tooltip="Reset all progress" title="Reset all progress"><span aria-hidden="true">↺</span></button>
+          </div>
+          <button id="progressButton" class="progress-button" type="button" data-tooltip="Open performance dashboard" title="Open performance dashboard"><span>Progress</span><strong id="topProgressText">0 / 448</strong><i><b id="topProgressFill"></b></i></button>
+          <button id="keyboardHelp" class="icon-btn" type="button" aria-label="Keyboard shortcuts" data-tooltip="Keyboard shortcuts" title="Keyboard shortcuts"><span aria-hidden="true">⌘</span></button>
+        </div>
+      </header>
+      <div id="fullBankNavigator" class="full-bank-navigator" hidden>
+        <div class="full-bank-label">
+          <span><strong>Full bank</strong> · choose any question</span>
+          <output id="fullBankPosition" for="fullBankSlider">001 / 448</output>
+        </div>
+        <input id="fullBankSlider" type="range" min="1" max="448" value="1" step="1" aria-label="Choose full-bank question number">
+      </div>
+
+      <section id="quizView" class="view active">
+        <div id="incognitoBanner" class="incognito-banner" hidden><span aria-hidden="true">◉</span><strong>Incognito practice</strong> — answers in this session are not recorded or used for adaptation.</div>
+
+        <section class="question-zone" aria-live="polite">
+          <div class="question-head"><div><span id="questionTag" class="topic-tag">STRATEGY</span><span id="difficultyTag" class="difficulty">MODERATE</span></div><div class="question-number"><span id="questionIndex">Question 01</span><button id="flagButton" class="flag-btn" aria-label="Add question to review queue">⌑</button></div></div>
+          <div id="questionType" class="question-type">SINGLE ANSWER · DECISION SCENARIO</div>
+          <h2 id="questionText">Loading your first question…</h2>
+          <p id="multiHint" class="multi-hint" hidden>Select all that apply, then check your answer.</p>
+          <form id="answers" class="answers" aria-label="Answer options"></form>
+          <div class="question-actions"><button id="checkAnswer" class="primary-btn" type="button">Check answer <span>↵</span></button><button id="nextQuestion" class="next-btn" type="button" hidden>Next decision <span>→</span></button></div>
+        </section>
+
+        <section id="feedback" class="feedback" hidden>
+          <div id="feedbackMark" class="feedback-mark">✓</div><div><div id="feedbackTitle" class="feedback-title">Strong call.</div><p id="feedbackText"></p><div class="concept-line"><strong>Underlying concept</strong><span id="conceptText"></span></div><div class="takeaway"><span>INTERVIEW TAKEAWAY</span><p id="takeawayText"></p></div></div>
+        </section>
+      </section>
+
+      <section id="dashboardView" class="view">
+        <p class="eyebrow">YOUR PERFORMANCE MAP</p><h1>Turn recall into <em>executive judgement.</em></h1>
+        <div class="metric-grid"><article><span>Questions answered</span><strong id="dashAnswered">0</strong><small>of 448 in the bank</small></article><article><span>Decision accuracy</span><strong id="dashAccuracy">—</strong><small>correct first responses</small></article><article><span>Best capability</span><strong id="bestTopic">—</strong><small>minimum 3 attempts</small></article><article><span>Priority review</span><strong id="weakTopic">—</strong><small>lowest-performing topic</small></article></div>
+        <section class="panel"><div class="panel-title"><div><p class="eyebrow">CAPABILITY SIGNAL</p><h2>Mastery by topic</h2></div><button class="quiet-btn" id="startWeak">Practise weakest →</button></div><div id="topicBars" class="topic-bars"></div></section>
+        <section class="panel"><div class="panel-title"><div><p class="eyebrow">SENIOR-LEVEL REVISION</p><h2>What to rehearse aloud</h2></div></div><ol class="verbal-prompts" id="verbalPrompts"></ol><p class="panel-note">These prompts intentionally have no model answers. Structure your answer as context → choice → trade-off → metric.</p></section>
+      </section>
+      <section id="overviewView" class="view">
+        <p class="eyebrow">READ-ONLY BANK MAP</p>
+        <h1>The complete <em>question bank.</em></h1>
+        <p class="lede">An administrative view of all 448 questions: coverage, concepts and difficulty mix. Opening or inspecting this view never changes your performance data.</p>
+        <div class="overview-stats"><article><strong>448</strong><span>Questions</span></article><article><strong>28</strong><span>Topics</span></article><article><strong>112</strong><span>Core concepts</span></article><article><strong>4</strong><span>Question formats</span></article></div>
+        <div class="overview-toolbar"><label for="overviewSearch">Filter the bank</label><input id="overviewSearch" type="search" placeholder="Search topic or concept…"><span id="overviewResultCount">28 topics</span></div>
+        <div id="overviewGrid" class="overview-grid"></div>
+      </section>
+
+      <section id="reviewView" class="view"><p class="eyebrow">DELIBERATE PRACTICE</p><h1>Your <em>review queue.</em></h1><p class="lede">Flag decisions you want to revisit. Your queue remains on this device.</p><div id="reviewList" class="review-list"></div></section>
+    </main>
+  </div>
+  <dialog id="summaryDialog" class="summary-dialog"><button class="dialog-close" aria-label="Close summary">×</button><p class="eyebrow">25-QUESTION CHECKPOINT</p><h2>Session signal</h2><div id="summaryScore" class="summary-score"></div><div class="summary-columns"><section><h3>Strong in</h3><ul id="strongList"></ul></section><section><h3>Revise next</h3><ul id="weakList"></ul></section></div><section><h3>Five Head-level questions to answer verbally</h3><ol id="summaryPrompts" class="verbal-prompts"></ol></section><button class="primary-btn dialog-continue">Continue revision <span>→</span></button></dialog>
+  <dialog id="shortcutsDialog" class="shortcuts"><button class="dialog-close" aria-label="Close shortcuts">×</button><h2>Shortcuts</h2><p><kbd>1</kbd>–<kbd>4</kbd> Choose an option</p><p><kbd>Enter</kbd> Check answer / next question</p><p><kbd>F</kbd> Flag for review</p><p><kbd>D</kbd> Open dashboard</p><p><kbd>Esc</kbd> Close dialog</p></dialog>
+  <script src="app.js?v=20260907d"></script>
+</body>
+</html>
