@@ -15,7 +15,7 @@
         <button class="nav-item active" data-view="quiz" data-tooltip="Revision desk" title="Revision desk"><span class="nav-icon">◈</span><span class="nav-label">Revision desk</span></button>
         <button class="nav-item" data-view="dashboard" data-tooltip="Performance" title="Performance"><span class="nav-icon">◫</span><span class="nav-label">Performance</span></button>
         <button class="nav-item" data-view="overview" data-tooltip="Bank overview" title="Bank overview"><span class="nav-icon">▦</span><span class="nav-label">Bank overview</span></button>
-        <button class="nav-item" data-view="review" data-tooltip="Review queue" title="Review queue"><span class="nav-icon">⌁</span><span class="nav-label">Review queue</span><b id="reviewCount">0</b></button>
+        <button class="nav-item" data-view="review" data-tooltip="Bookmarks" title="Bookmarks"><span class="nav-icon">▰</span><span class="nav-label">Bookmarks</span><b id="reviewCount">0</b></button>
       </nav>
       <div class="sidebar-foot">
         <div class="edition">Based on core frameworks from<br><strong>Marketing Management</strong><br>Kotler · Keller · 16th edition</div>
@@ -51,7 +51,18 @@
         <div id="incognitoBanner" class="incognito-banner" hidden><span aria-hidden="true">◉</span><strong>Incognito practice</strong> — answers in this session are not recorded or used for adaptation.</div>
 
         <section class="question-zone" aria-live="polite">
-          <div class="question-head"><div><span id="questionTag" class="topic-tag">STRATEGY</span><span id="difficultyTag" class="difficulty">MODERATE</span></div><div class="question-number"><span id="questionIndex">Question 01</span><button id="flagButton" class="flag-btn" aria-label="Add question to review queue">⌑</button></div></div>
+          <div class="question-head">
+            <div><span id="questionTag" class="topic-tag">STRATEGY</span><span id="difficultyTag" class="difficulty">MODERATE</span></div>
+            <div class="question-number">
+              <span id="questionIndex">Question 01</span>
+              <div class="question-tools">
+                <button id="readToggle" class="question-tool" type="button" aria-pressed="false" aria-label="Mark question as read" data-tooltip="Mark as read"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="m8 12 2.5 2.5L16 9"></path></svg><span id="readLabel">Mark read</span></button>
+                <button id="bookmarkButton" class="question-tool bookmark-button" type="button" aria-pressed="false" aria-label="Bookmark question" data-tooltip="Bookmark question"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6.5 4.5h11v15l-5.5-3.3-5.5 3.3z"></path></svg><span id="bookmarkLabel">Bookmark</span></button>
+                <button id="copyContextButton" class="question-tool" type="button" aria-label="Copy question context for an AI assistant" data-tooltip="Copy context for an AI assistant"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2"></rect><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path></svg><span>Copy for AI</span></button>
+              </div>
+            </div>
+          </div>
+          <div id="copyStatus" class="copy-status" role="status" aria-live="polite"></div>
           <div id="questionType" class="question-type">SINGLE ANSWER · DECISION SCENARIO</div>
           <h2 id="questionText">Loading your first question…</h2>
           <p id="multiHint" class="multi-hint" hidden>Select all that apply, then check your answer.</p>
@@ -75,15 +86,15 @@
         <h1>The complete <em>question bank.</em></h1>
         <p class="lede">An administrative view of all 448 questions: coverage, concepts and difficulty mix. Opening or inspecting this view never changes your performance data.</p>
         <div class="overview-stats"><article><strong>448</strong><span>Questions</span></article><article><strong>28</strong><span>Topics</span></article><article><strong>112</strong><span>Core concepts</span></article><article><strong>4</strong><span>Question formats</span></article></div>
-        <div class="overview-toolbar"><label for="overviewSearch">Filter the bank</label><input id="overviewSearch" type="search" placeholder="Search topic or concept…"><span id="overviewResultCount">28 topics</span></div>
+        <div class="overview-toolbar"><label for="overviewSearch">Filter the bank</label><input id="overviewSearch" type="search" placeholder="Search topic or concept…"><label class="sr-only" for="overviewStatus">Question status</label><select id="overviewStatus" aria-label="Filter by question status"><option value="all">All statuses</option><option value="unread">Has unread questions</option><option value="read">Fully read topics</option><option value="bookmarked">Has bookmarks</option></select><span id="overviewResultCount">28 topics</span></div>
         <div id="overviewGrid" class="overview-grid"></div>
       </section>
 
-      <section id="reviewView" class="view"><p class="eyebrow">DELIBERATE PRACTICE</p><h1>Your <em>review queue.</em></h1><p class="lede">Flag decisions you want to revisit. Your queue remains on this device.</p><div id="reviewList" class="review-list"></div></section>
+      <section id="reviewView" class="view"><p class="eyebrow">SAVED FOR LATER</p><h1>Your <em>bookmarks.</em></h1><p class="lede">Questions you deliberately saved for another pass. Bookmarks remain on this device.</p><div id="reviewList" class="review-list"></div></section>
     </main>
   </div>
   <dialog id="summaryDialog" class="summary-dialog"><button class="dialog-close" aria-label="Close summary">×</button><p class="eyebrow">25-QUESTION CHECKPOINT</p><h2>Session signal</h2><div id="summaryScore" class="summary-score"></div><div class="summary-columns"><section><h3>Strong in</h3><ul id="strongList"></ul></section><section><h3>Revise next</h3><ul id="weakList"></ul></section></div><section><h3>Five Head-level questions to answer verbally</h3><ol id="summaryPrompts" class="verbal-prompts"></ol></section><button class="primary-btn dialog-continue">Continue revision <span>→</span></button></dialog>
-  <dialog id="shortcutsDialog" class="shortcuts"><button class="dialog-close" aria-label="Close shortcuts">×</button><h2>Shortcuts</h2><p><kbd>1</kbd>–<kbd>4</kbd> Choose an option</p><p><kbd>Enter</kbd> Check answer / next question</p><p><kbd>F</kbd> Flag for review</p><p><kbd>D</kbd> Open dashboard</p><p><kbd>Esc</kbd> Close dialog</p></dialog>
-  <script src="app.js?v=20260907d"></script>
+  <dialog id="shortcutsDialog" class="shortcuts"><button class="dialog-close" aria-label="Close shortcuts">×</button><h2>Shortcuts</h2><p><kbd>1</kbd>–<kbd>4</kbd> Choose an option</p><p><kbd>Enter</kbd> Check answer / next question</p><p><kbd>B</kbd> Toggle bookmark</p><p><kbd>R</kbd> Toggle read status</p><p><kbd>C</kbd> Copy context for AI</p><p><kbd>D</kbd> Open dashboard</p><p><kbd>Esc</kbd> Close dialog</p></dialog>
+  <script src="app.js?v=20260907e"></script>
 </body>
 </html>
